@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Impostor.Api.Plugins;
-using Microsoft.Extensions.Logging;
+using SusSuite.Core;
+using Translator.Plugin.Models;
 
 namespace Translator
 {
@@ -11,22 +12,26 @@ namespace Translator
          version: "1.0.0")]
     public class TranslatorPlugin : PluginBase
     {
-        private readonly ILogger<TranslatorPlugin> _logger;
+        private readonly ISusSuiteCore _susSuiteCore;
 
-        public TranslatorPlugin(ILogger<TranslatorPlugin> logger)
+        public TranslatorPlugin(ISusSuiteCore susSuiteCore)
         {
-            _logger = logger;
+            _susSuiteCore = susSuiteCore;
+            _susSuiteCore.PluginName = "Translator";
         }
 
         public override ValueTask EnableAsync()
         {
-            _logger.LogInformation("TranslatorPlugin is being enabled.");
+            _susSuiteCore.Logger.LogInformation("Enabled");
+
+            var settings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>("TranslatorSettings");
+
             return default;
         }
 
         public override ValueTask DisableAsync()
         {
-            _logger.LogInformation("TranslatorPlugin is being disabled.");
+            _susSuiteCore.Logger.LogInformation("Enabled");
             return default;
         }
     }

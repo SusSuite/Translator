@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Translator.Handlers;
 using Translator.Services;
+using SusSuite.Core;
+using System.Text.Json;
+using Translator.Plugin.Models;
 
 namespace Translator
 {
@@ -17,12 +20,13 @@ namespace Translator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IEventListener, TranslatorEventListener>();
+            services.AddSingleton<ISusSuiteCore, SusSuiteCore>();
 
-            services.AddHttpClient<ITranslatorService, TranslatorService>(client =>
-            {
-                client.BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com/");
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "4251832fd38c4e75b10344f6d7ff4591");
-            });
+            services.AddHttpClient<ITranslatorService, TranslatorService>();
+
+            var jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.Converters.Add(new TranslatorSettingPropertyConverter());
+            services.AddSingleton(jsonSerializerOptions);
         }
     }
 }
