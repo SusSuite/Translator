@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Impostor.Api.Plugins;
 using SusSuite.Core;
+using Translator.Plugin;
 using Translator.Plugin.Models;
 
 namespace Translator
@@ -12,20 +13,17 @@ namespace Translator
          version: "1.0.0")]
     public class TranslatorPlugin : PluginBase
     {
-        private readonly ISusSuiteCore _susSuiteCore;
+        private readonly SusTranslatorPlugin _susSuiteCore;
 
-        public TranslatorPlugin(ISusSuiteCore susSuiteCore)
+        public TranslatorPlugin(SusTranslatorPlugin susSuiteCore)
         {
             _susSuiteCore = susSuiteCore;
-            _susSuiteCore.PluginName = "Translator";
+            var translatorSettings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>();
         }
 
         public override ValueTask EnableAsync()
         {
             _susSuiteCore.Logger.LogInformation("Enabled");
-
-            var settings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>("TranslatorSettings");
-
             return default;
         }
 

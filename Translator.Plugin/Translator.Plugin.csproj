@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Impostor.Api" Version="1.2.2-ci.121" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-    <PackageReference Include="SusSuite.Core" Version="1.1.0-PreRelease" />
+    <PackageReference Include="SusSuite.Core" Version="1.2.0-PreRelease" />
     <PackageReference Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
 

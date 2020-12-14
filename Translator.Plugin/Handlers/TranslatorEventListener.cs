@@ -9,20 +9,21 @@ using Translator.Services;
 using Impostor.Api.Innersloth.Customization;
 using SusSuite.Core;
 using Translator.Plugin.Models;
+using Translator.Plugin;
 
 namespace Translator.Handlers
 {
     public class TranslatorEventListener : IEventListener
     {
-        private readonly ISusSuiteCore _susSuiteCore;
+        private readonly SusTranslatorPlugin _susSuiteCore;
         private readonly ITranslatorService _translatorService;
         private readonly TranslatorSettings _translatorSettings;
 
-        public TranslatorEventListener(ISusSuiteCore susSuiteCore, ITranslatorService translatorService)
+        public TranslatorEventListener(SusTranslatorPlugin susSuiteCore, ITranslatorService translatorService)
         {
             _susSuiteCore = susSuiteCore;
             _translatorService = translatorService;
-            _translatorSettings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>("TranslatorSettings");
+            _translatorSettings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>();
         }
 
         [EventListener]

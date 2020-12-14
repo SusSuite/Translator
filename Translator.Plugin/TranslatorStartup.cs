@@ -8,8 +8,9 @@ using Translator.Services;
 using SusSuite.Core;
 using System.Text.Json;
 using Translator.Plugin.Models;
+using Microsoft.Extensions.Logging;
 
-namespace Translator
+namespace Translator.Plugin
 {
     public class TranslatorStartup : IPluginStartup
     {
@@ -20,13 +21,21 @@ namespace Translator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IEventListener, TranslatorEventListener>();
-            services.AddSingleton<ISusSuiteCore, SusSuiteCore>();
-
+            services.AddSingleton<SusTranslatorPlugin>();
             services.AddHttpClient<ITranslatorService, TranslatorService>();
 
             var jsonSerializerOptions = new JsonSerializerOptions();
             jsonSerializerOptions.Converters.Add(new TranslatorSettingPropertyConverter());
             services.AddSingleton(jsonSerializerOptions);
+        }
+    }
+
+    public class SusTranslatorPlugin : SusSuiteCore
+    {
+        public SusTranslatorPlugin(ILogger<SusTranslatorPlugin> logger, JsonSerializerOptions jsonSerializerOptions) : base(logger, jsonSerializerOptions)
+        {
+            PluginName = "Translator";
+            ConfigServiceDefaultLogLevel = LogLevel.Information;
         }
     }
 }

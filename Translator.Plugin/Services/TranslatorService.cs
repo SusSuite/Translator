@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SusSuite.Core;
 using Translator.Models;
+using Translator.Plugin;
 using Translator.Plugin.Models;
 
 namespace Translator.Services
@@ -15,21 +16,22 @@ namespace Translator.Services
     public class TranslatorService : ITranslatorService
     {
         private readonly HttpClient _httpClient;
-        private readonly ISusSuiteCore _susSuiteCore;
+        private readonly SusTranslatorPlugin _susSuiteCore;
         private readonly TranslatorSettings _translatorSettings;
 
 
         private readonly string _detectEndpoint = "detect?api-version=3.0";
         private readonly string _translateEndpoint = "translate?api-version=3.0";
-        public TranslatorService(HttpClient httpClient, ISusSuiteCore susSuiteCore)
+        public TranslatorService(HttpClient httpClient, SusTranslatorPlugin susSuiteCore)
         {
             _httpClient = httpClient;
             _susSuiteCore = susSuiteCore;
-            _translatorSettings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>("TranslatorSettings");
+            _translatorSettings = _susSuiteCore.ConfigService.GetConfig<TranslatorSettings>();
 
             _httpClient.BaseAddress = new Uri(_translatorSettings.Endpoint);
             _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _translatorSettings.ApiKey);
         }
+
 
         public async Task<string> GetLanguageAsynce(string message)
         {
