@@ -10,7 +10,7 @@ Install Microsoft.Extensions in your library folder.
 Install Translator in your plugins folder.
 
 Run your server to generate the config folder:
-> plugins/Tranlator/TranslatorSettings.json
+> plugins/Tranlator/Translator.json
 
 Go ahead and stop your server.
 
